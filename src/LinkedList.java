@@ -1,10 +1,69 @@
-
+/**
+ * This class implements the provided Sequence interface.
+ * 
+ * @author Megan Bird
+ *
+ * @param <T>
+ */
 public class LinkedList<T> implements Sequence<T> {
-
+	
+	/**
+	 * This class defines a node of a linked list.
+	 * 
+	 * @author Megan Bird
+	 */
+	class ListNode {
+		T datum;
+		ListNode next;
+		
+		/**
+		 * Constructs an empty node.
+		 * 
+		 * @param datum
+		 */
+		ListNode(T datum) {
+			this.datum = datum;
+			this.next = null;
+		}
+	}
+	
+	/**
+	 * Holds the node designated as the head of the linked list.
+	 */
+	private ListNode head;
+	
+	/**
+	 * Constructs and empty linked list.
+	 */
+	public LinkedList() {
+		head = null;
+	}
+	
+	/**
+	 * Prints the datum of the linked list out in order in the 
+	 * console, each separated by a space.
+	 */
+	public void printList() {
+		while (head != null) {
+			System.out.printf("%d ",head.datum);
+			head = head.next;
+		}
+		System.out.println();
+	}
+	
 	@Override
 	public void add(T obj) {
-		// TODO Auto-generated method stub
+		head = add(head, obj);
+	}
 
+	private ListNode add(ListNode head, T datum) {
+		if (head == null) {
+			return new ListNode(datum);
+		}
+		else {
+			head.next = add(head.next, datum);
+			return head;
+		}
 	}
 
 	@Override
