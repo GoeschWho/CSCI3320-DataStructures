@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+
 /**
  * This class implements the provided Sequence interface.
  * 
@@ -46,7 +48,7 @@ public class LinkedList<T> implements Sequence<T> {
 	public void printList() {
 		ListNode current = head;
 		while (current != null) {
-			System.out.printf("%d ",current.datum);
+			System.out.printf("%s ",current.datum);
 			current = current.next;
 		}
 		System.out.println();
@@ -69,13 +71,13 @@ public class LinkedList<T> implements Sequence<T> {
 	 * @param datum Data to be added to the list
 	 * @return Returns the resulting list
 	 */
-	private ListNode add(ListNode head, T datum) {
-		if (head == null) {
+	private ListNode add(ListNode current, T datum) {
+		if (current == null) {
 			return new ListNode(datum);
 		}
 		else {
-			head.next = add(head.next, datum);
-			return head;
+			current.next = add(current.next, datum);
+			return current;
 		}
 	}
 	
@@ -177,40 +179,141 @@ public class LinkedList<T> implements Sequence<T> {
 	 * @return {@code true} if the linked list contains the data
      *         {@code false} otherwise
 	 */
-	private boolean contains(ListNode head, T datum) {
-		if (head == null) {
+	private boolean contains(ListNode current, T datum) {
+		if (current == null) {
 			return false;
 		}
-		else if (head.datum == datum) {
+		else if (current.datum == datum) {
 			return true;
 		}
 		else {
-			return contains(head.next, datum);
+			return contains(current.next, datum);
 		}
 	}
 
+	/**
+     * Returns the index of the first occurrence of the specified object in
+     * this sequence, or -1 if object is not present.
+     *
+     * @param obj the object to find in the sequence
+     * @return the index of the first occurrence of the specified object in
+     *         this sequence, or -1 if object is not present
+     */
 	@Override
 	public int indexOf(T obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		int n = 0;
+		ListNode current = head;
+		
+		while (current != null) {
+			if (current.datum == obj) {
+				return n;
+			}
+			else {
+				current = current.next;
+				n++;
+			}
+		}
+		return -1;
 	}
 
+	/**
+     * Returns {@code true} if the sequence is empty and {@code false}
+     * otherwise.
+     *
+     * @return {@code true} if the sequence is empty and {@code false}
+     *         otherwise
+     */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		if (head == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
+	/**
+     * Removes the object at the specified position in the sequence.
+     *
+     * @param idx index of the element to remove
+     * @return the object previously at the specified position
+     * @throws IndexOutOfBoundsException if the index is out of range
+     *         (index < 0 || index > size())
+     */
 	@Override
 	public T remove(int idx) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		int n = 0;
+		boolean found = false;
+		ListNode current = head;
+		ListNode retNode = null;
+		
+		if (idx < 0 || idx > size()) {
+			throw new IndexOutOfBoundsException();
+		}
+		else if (idx == 0) {
+			retNode = current;
+			current = current.next;
+		}
+		else {
+			while (!found) {
+				if (n == idx - 1) {
+					retNode = current.next;
+					current.next = current.next.next;
+					found = true;
+				}
+				else {
+					current = current.next;
+					n++;
+				}
+			}
+		}
+		return retNode.datum; // Due to index checking, this should never be reached.
 	}
 
+	/**
+     * Remove the first occurrence of the specified object from the sequence,
+     * if it is present.
+     *
+     * @param obj the object to remove
+     * @return {@code true} if the sequence contained the specified object and
+     *         {@code false} otherwise
+     */
 	@Override
 	public boolean remove(T obj) {
-		// TODO Auto-generated method stub
-		return false;
+		return remove(head, obj);
+	}
+	
+	/**
+	 * Recursively implements the public remove function. 
+	 * 
+	 * @param head The head of the linked list to look in
+	 * @param datum The data to look for
+	 * @return {@code true} if the linked list contains the data
+     *         {@code false} otherwise
+	 */
+	private boolean remove(ListNode current, T datum) {
+		boolean found = false;
+		
+		if (current == null) {
+			return false;
+		}
+		else if (current.datum == datum) {
+			current = current.next;
+			return true;
+		}
+		else {
+			while (!found && (current.next != null)) {
+				if (current.next.datum == datum) {
+					current.next = current.next.next;
+					return true;
+				}
+				else {
+					current = current.next;
+				}
+			}
+			return false;
+		}
 	}
 
 	/**
@@ -230,10 +333,27 @@ public class LinkedList<T> implements Sequence<T> {
 		return n;
 	}
 
+	/**
+     * Returns an array containing all of the elements in the sequence in the
+     * proper order (from first to last).
+     *
+     * @return an array containing the elements of the sequence
+     */
 	@Override
 	public T[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()) {
+	        return null;
+	    }
+
+	    T[] data = (T[]) new Comparable[size()];
+
+	    ListNode tmp = head;
+	    for (int i = 0; i < size(); i++) {
+	        data[i] = tmp.datum;
+	        tmp = tmp.next;
+	    }
+
+	    return data;		
 	}
 
 }
