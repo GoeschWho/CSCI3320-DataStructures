@@ -5,9 +5,10 @@ public class Testing {
 		testList.add(1);
 		testList.add(2);
 		testList.add(3);
-		testList.add(2);
 		
 		testList.printList();
+		
+		System.out.println(testList.contains(7));
 	}
 
 }

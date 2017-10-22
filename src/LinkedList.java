@@ -44,18 +44,31 @@ public class LinkedList<T> implements Sequence<T> {
 	 * console, each separated by a space.
 	 */
 	public void printList() {
-		while (head != null) {
-			System.out.printf("%d ",head.datum);
-			head = head.next;
+		ListNode current = head;
+		while (current != null) {
+			System.out.printf("%d ",current.datum);
+			current = current.next;
 		}
 		System.out.println();
 	}
 	
+	/**
+     * Adds the specified object to the end of the sequence.
+     *
+     * @param obj Object to be appended to this sequence
+     */
 	@Override
 	public void add(T obj) {
 		head = add(head, obj);
 	}
 
+	/**
+	 * Recursively implements the public add to end operation
+	 * 
+	 * @param head Linked list to be added to
+	 * @param datum Data to be added to the list
+	 * @return Returns the resulting list
+	 */
 	private ListNode add(ListNode head, T datum) {
 		if (head == null) {
 			return new ListNode(datum);
@@ -65,29 +78,115 @@ public class LinkedList<T> implements Sequence<T> {
 			return head;
 		}
 	}
-
+	
+	/**
+     * Adds the specified object at the given position in the sequence.
+     *
+     * @param idx index at which the specified object is to be inserted
+     * @param obj object to be appended to this sequence
+     * @throws IndexOutOfBoundsException if the index is out of range
+     *         (index < 0 || index > size())
+     */
 	@Override
 	public void add(int idx, T obj) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-
+		boolean found = false;
+		int n = 0;
+		ListNode tmp = new ListNode(obj);
+		ListNode current = head;
+		
+		if (idx < 0 || idx > size()) {
+			throw new IndexOutOfBoundsException();
+		}
+		else if (idx == 0) {
+			tmp.next = head;
+			head = tmp;
+		}
+		else {
+			while (!found) {
+				if (n == idx - 1) {
+					tmp.next = current.next;
+					current.next = tmp;
+					found = true;
+				}
+				else {
+					current = current.next;
+					n++;
+				}
+			}
+		}
 	}
 
+	/**
+     * Removes all of the elements from the sequence.
+     */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		head = null;
 	}
 
+	/**
+     * Returns the object at the specified position in the sequence.
+     *
+     * @param idx index of the element to return
+     * @return the object at the specified position in the sequence
+     * @throws IndexOutOfBoundsException if the index is out of range
+     *         (index < 0 || index > size())
+     */
 	@Override
 	public T get(int idx) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		boolean found = false;
+		int n = 0;
+		ListNode current = head;
+		
+		if (idx < 0 || idx > size()) {
+			throw new IndexOutOfBoundsException();
+		}
+		else {
+			while (!found) {
+				if (n == idx) {
+					found = true;
+					return current.datum;
+				}
+				else {
+					current = current.next;
+					n++;
+				}
+			}
+		}
+		return null; // Due to index checking, this should never be reached.
 	}
 
+	/**
+     * Returns {@code true} if the sequence contains the specified object and
+     * {@code false} otherwise.
+     *
+     * @param obj the object to find in the sequence
+     * @return {@code true} if the sequence contains the specified object and
+     *         {@code false} otherwise
+     */
 	@Override
 	public boolean contains(T obj) {
-		// TODO Auto-generated method stub
-		return false;
+		return contains(head, obj);
+	}
+	
+	/**
+	 * Recursively implements the public contains function. 
+	 * 
+	 * @param head The head of the linked list to look in
+	 * @param datum The data to look for
+	 * @return {@code true} if the linked list contains the data
+     *         {@code false} otherwise
+	 */
+	private boolean contains(ListNode head, T datum) {
+		if (head == null) {
+			return false;
+		}
+		else if (head.datum == datum) {
+			return true;
+		}
+		else {
+			return contains(head.next, datum);
+		}
 	}
 
 	@Override
@@ -114,10 +213,21 @@ public class LinkedList<T> implements Sequence<T> {
 		return false;
 	}
 
+	/**
+     * Returns the number of elements in the sequence.
+     *
+     * @return the number of elements in the sequence
+     */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		ListNode current = head;
+		int n = 0;
+		
+		while (current != null) {
+			n++;
+			current = current.next;
+		}
+		return n;
 	}
 
 	@Override
