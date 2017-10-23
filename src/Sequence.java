@@ -94,6 +94,6 @@ public interface Sequence<T> {
      *
      * @return an array containing the elements of the sequence
      */
-    T[] toArray();
+    Object[] toArray();
  
 }

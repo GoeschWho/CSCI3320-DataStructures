@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 /**
  * This class implements the provided Sequence interface.
  * 
@@ -52,6 +50,32 @@ public class LinkedList<T> implements Sequence<T> {
 			current = current.next;
 		}
 		System.out.println();
+	}
+	
+	/**
+	 * Return a {@code String} representation of the linked list.
+	 *
+	 * @return a {@code String} representation of the linked list.
+	 * @author Provided via Canvas
+	 */
+	public String toString() {
+	    StringBuilder repr = new StringBuilder();
+	    repr.append("[");
+
+	    ListNode tmp = head;
+	    if (tmp != null) {
+	        repr.append(tmp.datum);
+	        do {
+	            tmp = tmp.next;
+	            if (tmp != null) {
+	                repr.append(", ").append(tmp.datum);
+	            }
+	        } while (tmp != null);
+	    }
+
+	    repr.append("]");
+
+	    return repr.toString();
 	}
 	
 	/**
@@ -285,7 +309,7 @@ public class LinkedList<T> implements Sequence<T> {
 	}
 	
 	/**
-	 * Recursively implements the public remove function. 
+	 * Implements the public remove function. 
 	 * 
 	 * @param head The head of the linked list to look in
 	 * @param datum The data to look for
@@ -340,12 +364,12 @@ public class LinkedList<T> implements Sequence<T> {
      * @return an array containing the elements of the sequence
      */
 	@Override
-	public T[] toArray() {
+	public Object[] toArray() {
 		if (isEmpty()) {
 	        return null;
 	    }
 
-	    T[] data = (T[]) new Comparable[size()];
+		Object[] data = new Object[size()];
 
 	    ListNode tmp = head;
 	    for (int i = 0; i < size(); i++) {

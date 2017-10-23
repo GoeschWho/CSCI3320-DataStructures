@@ -7,14 +7,22 @@ public class Testing {
 		testList.add(1);
 		testList.add(2);
 		testList.add(3);
-		testList.add(4);
-		testList.add(5);
+		testList.add(2);
+		testList.add(1);
 		
 		testList.printList();
 		
-		Integer[] myArray = testList.toArray();
+		// need to check that remove(obj) removes the FIRST instance
+		System.out.println(testList.remove(Integer.valueOf(2)));
 		
-		System.out.println(myArray);
+		testList.printList();		
+		
+		//Object[] myArray = testList.toArray();
+		
+		//System.out.println(myArray);
+		
+		
+		// NEED TO ADD COMPUTATIONAL COMPLEXITIES TO COMMENTS!
 	}
 
 }
