@@ -40,16 +40,10 @@ public class LinkedList<T> implements Sequence<T> {
 	}
 	
 	/**
-	 * Prints the datum of the linked list out in order in the 
-	 * console, each separated by a space.
+	 * Prints the datum of the linked list out in order in the console.
 	 */
 	public void printList() {
-		ListNode current = head;
-		while (current != null) {
-			System.out.printf("%s ",current.datum);
-			current = current.next;
-		}
-		System.out.println();
+		System.out.println(toString());
 	}
 	
 	/**

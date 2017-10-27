@@ -2,6 +2,7 @@ public class Testing {
 	
 	public static void main(String[] args) {
 		
+		/*
 		LinkedList<Integer> testList = new LinkedList<Integer>();	
 		
 		testList.add(1);
@@ -9,17 +10,29 @@ public class Testing {
 		testList.add(3);
 		testList.add(2);
 		testList.add(1);
+		*/
 		
-		testList.printList();
+		BinarySearchTree<Integer> testSet = new BinarySearchTree<Integer>();
 		
-		// need to check that remove(obj) removes the FIRST instance
-		System.out.println(testList.remove(Integer.valueOf(2)));
+		testSet.add(1);
+		testSet.add(2);
+		testSet.add(3);
+		testSet.add(4);
+		testSet.add(5);
 		
-		testList.printList();		
+		testSet.printTree();
 		
-		//Object[] myArray = testList.toArray();
+		System.out.println(testSet.size());
 		
-		//System.out.println(myArray);
+		System.out.println(testSet.isEmpty());
+		
+		testSet.clear();
+		
+		testSet.printTree();
+		
+		System.out.println(testSet.size());
+		
+		System.out.println(testSet.isEmpty());
 		
 		
 		// NEED TO ADD COMPUTATIONAL COMPLEXITIES TO COMMENTS!
