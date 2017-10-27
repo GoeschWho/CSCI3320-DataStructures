@@ -44,7 +44,7 @@ public interface Set<T> {
      * @return {@code true} if the set contained the specified object and
      *         {@code false} otherwise
      */
-    void remove(T obj);
+    boolean remove(T obj);
  
     /**
      * Returns the number of elements in the set.
@@ -59,6 +59,6 @@ public interface Set<T> {
      *
      * @return an array containing the objects in the set
      */
-    T[] toArray();
+    Object[] toArray();
  
 }

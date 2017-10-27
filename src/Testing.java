@@ -14,26 +14,19 @@ public class Testing {
 		
 		BinarySearchTree<Integer> testSet = new BinarySearchTree<Integer>();
 		
-		testSet.add(1);
-		testSet.add(2);
-		testSet.add(3);
-		testSet.add(4);
 		testSet.add(5);
+		testSet.add(3);
+		testSet.add(2);
+		testSet.add(1);
+		testSet.add(4);
+		testSet.add(10);
+		testSet.add(8);
+		testSet.add(6);
+		testSet.add(7);
+		testSet.add(9);
 		
 		testSet.printTree();
-		
-		System.out.println(testSet.size());
-		
-		System.out.println(testSet.isEmpty());
-		
-		testSet.clear();
-		
-		testSet.printTree();
-		
-		System.out.println(testSet.size());
-		
-		System.out.println(testSet.isEmpty());
-		
+		testSet.toArray();
 		
 		// NEED TO ADD COMPUTATIONAL COMPLEXITIES TO COMMENTS!
 	}
