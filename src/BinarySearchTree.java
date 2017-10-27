@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 /**
  * This class implements the provided Set interface.
  * 
@@ -155,6 +153,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	 */
 	public BinarySearchTree() {
 		root = null;
+		size = 0;
 	}
 	
 	/**
@@ -180,7 +179,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	    	repr.append(toString(tmp).substring(2));
 	    }
 
-	    repr.append("} Size: ");
+	    repr.append("}");
 	    repr.append(size);
 
 	    return repr.toString();
@@ -219,7 +218,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	 * 
 	 * @param head Tree to be added to
 	 * @param obj Object to add to tree
-	 * @return Tree reseulting from the add
+	 * @return Tree resulting from the add
 	 */
 	private TreeNode add(TreeNode current, T obj) {
 		if (current == null) {
@@ -425,10 +424,10 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	        return null;
 	    }
 
-		Object[] data = new Object[size()];
+		Object[] data = new Object[size];
 		Iterator iTree = new Iterator(root);
 
-	    for (int i = 0; i < size(); i++) {
+	    for (int i = 0; i < size; i++) {
 	        data[i] = iTree.next();
 	    }
 	    

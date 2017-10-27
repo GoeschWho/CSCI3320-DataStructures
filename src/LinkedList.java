@@ -32,11 +32,14 @@ public class LinkedList<T> implements Sequence<T> {
 	 */
 	private ListNode head;
 	
+	private int size;
+	
 	/**
 	 * Constructs and empty linked list.
 	 */
 	public LinkedList() {
 		head = null;
+		size = 0;
 	}
 	
 	/**
@@ -91,6 +94,7 @@ public class LinkedList<T> implements Sequence<T> {
 	 */
 	private ListNode add(ListNode current, T datum) {
 		if (current == null) {
+			size++;
 			return new ListNode(datum);
 		}
 		else {
@@ -127,6 +131,7 @@ public class LinkedList<T> implements Sequence<T> {
 					tmp.next = current.next;
 					current.next = tmp;
 					found = true;
+					size++;
 				}
 				else {
 					current = current.next;
@@ -142,6 +147,7 @@ public class LinkedList<T> implements Sequence<T> {
 	@Override
 	public void clear() {
 		head = null;
+		size = 0;
 	}
 
 	/**
@@ -243,7 +249,7 @@ public class LinkedList<T> implements Sequence<T> {
      */
 	@Override
 	public boolean isEmpty() {
-		if (head == null) {
+		if (size == 0) {
 			return true;
 		}
 		else {
@@ -272,6 +278,7 @@ public class LinkedList<T> implements Sequence<T> {
 		else if (idx == 0) {
 			retNode = current;
 			current = current.next;
+			size--;
 		}
 		else {
 			while (!found) {
@@ -279,6 +286,7 @@ public class LinkedList<T> implements Sequence<T> {
 					retNode = current.next;
 					current.next = current.next.next;
 					found = true;
+					size--;
 				}
 				else {
 					current = current.next;
@@ -318,12 +326,14 @@ public class LinkedList<T> implements Sequence<T> {
 		}
 		else if (current.datum == datum) {
 			current = current.next;
+			size--;
 			return true;
 		}
 		else {
 			while (!found && (current.next != null)) {
 				if (current.next.datum == datum) {
 					current.next = current.next.next;
+					size--;
 					return true;
 				}
 				else {
@@ -341,14 +351,7 @@ public class LinkedList<T> implements Sequence<T> {
      */
 	@Override
 	public int size() {
-		ListNode current = head;
-		int n = 0;
-		
-		while (current != null) {
-			n++;
-			current = current.next;
-		}
-		return n;
+		return size;
 	}
 
 	/**
