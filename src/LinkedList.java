@@ -32,6 +32,9 @@ public class LinkedList<T> implements Sequence<T> {
 	 */
 	private ListNode head;
 	
+	/**
+	 * Holds the number of elements in the list.
+	 */
 	private int size;
 	
 	/**
@@ -44,6 +47,8 @@ public class LinkedList<T> implements Sequence<T> {
 	
 	/**
 	 * Prints the datum of the linked list out in order in the console.
+	 * 
+	 * O(n):  {@code toString} iterates through entire linked list.
 	 */
 	public void printList() {
 		System.out.println(toString());
@@ -51,6 +56,8 @@ public class LinkedList<T> implements Sequence<T> {
 	
 	/**
 	 * Return a {@code String} representation of the linked list.
+	 * 
+	 * O(n):  Iterates through entire linked list.
 	 *
 	 * @return a {@code String} representation of the linked list.
 	 * @author Provided via Canvas
@@ -77,6 +84,9 @@ public class LinkedList<T> implements Sequence<T> {
 	
 	/**
      * Adds the specified object to the end of the sequence.
+     * 
+     * O(n):  {@code private add()} iterates
+     * 		through the entire linked list.
      *
      * @param obj Object to be appended to this sequence
      */
@@ -105,6 +115,8 @@ public class LinkedList<T> implements Sequence<T> {
 	
 	/**
      * Adds the specified object at the given position in the sequence.
+     * 
+     * O(n):  Iterates through linked list until index.
      *
      * @param idx index at which the specified object is to be inserted
      * @param obj object to be appended to this sequence
@@ -144,6 +156,8 @@ public class LinkedList<T> implements Sequence<T> {
 
 	/**
      * Removes all of the elements from the sequence.
+     * 
+     * O(1):  Not dependent on list size.
      */
 	@Override
 	public void clear() {
@@ -153,6 +167,8 @@ public class LinkedList<T> implements Sequence<T> {
 
 	/**
      * Returns the object at the specified position in the sequence.
+     * 
+     * O(n):  Iterates through linked list until index.
      *
      * @param idx index of the element to return
      * @return the object at the specified position in the sequence
@@ -186,6 +202,9 @@ public class LinkedList<T> implements Sequence<T> {
 	/**
      * Returns {@code true} if the sequence contains the specified object and
      * {@code false} otherwise.
+     * 
+     * O(n):  {@code private contains()} iterates
+     * 		through the linked list.
      *
      * @param obj the object to find in the sequence
      * @return {@code true} if the sequence contains the specified object and
@@ -219,6 +238,8 @@ public class LinkedList<T> implements Sequence<T> {
 	/**
      * Returns the index of the first occurrence of the specified object in
      * this sequence, or -1 if object is not present.
+     * 
+     * O(n):  Iterates through linked list until object found.
      *
      * @param obj the object to find in the sequence
      * @return the index of the first occurrence of the specified object in
@@ -244,6 +265,8 @@ public class LinkedList<T> implements Sequence<T> {
 	/**
      * Returns {@code true} if the sequence is empty and {@code false}
      * otherwise.
+     * 
+     * O(1):  Not dependent on list size.
      *
      * @return {@code true} if the sequence is empty and {@code false}
      *         otherwise
@@ -260,6 +283,8 @@ public class LinkedList<T> implements Sequence<T> {
 
 	/**
      * Removes the object at the specified position in the sequence.
+     * 
+     * O(n):  Iterates through list until index.
      *
      * @param idx index of the element to remove
      * @return the object previously at the specified position
@@ -301,6 +326,8 @@ public class LinkedList<T> implements Sequence<T> {
 	/**
      * Remove the first occurrence of the specified object from the sequence,
      * if it is present.
+     * 
+     * O(n):  Iterates through the list until object found.
      *
      * @param obj the object to remove
      * @return {@code true} if the sequence contained the specified object and
@@ -340,6 +367,8 @@ public class LinkedList<T> implements Sequence<T> {
 
 	/**
      * Returns the number of elements in the sequence.
+     * 
+     * O(1):  Complexity not dependent on list size.
      *
      * @return the number of elements in the sequence
      */
@@ -351,6 +380,8 @@ public class LinkedList<T> implements Sequence<T> {
 	/**
      * Returns an array containing all of the elements in the sequence in the
      * proper order (from first to last).
+     * 
+     * O(n):  Iterates through the entire list.
      *
      * @return an array containing the elements of the sequence
      */

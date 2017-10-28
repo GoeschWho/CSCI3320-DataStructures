@@ -144,7 +144,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	private TreeNode root;
 	
 	/**
-	 * Holds the size of the BST;
+	 * Holds the number of nodes of the BST;
 	 */
 	private int size;
 	
@@ -158,6 +158,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	
 	/**
 	 * Prints the datum of the BST out in order in the console.
+	 * 
+	 * O(n):  {@code toString()} iterates through entire tree.
 	 */
 	public void printTree() {
 		System.out.println(toString());
@@ -166,6 +168,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	/**
 	 * Adapted from the provided toString() for a linked list.
 	 * Return a {@code String} representation of the BST.
+	 * 
+	 * O(n):  Iterates through entire tree.
 	 * 
 	 * @return a {@code String} representation of the BST.
 	 * @author Adapted from Canvas source
@@ -204,6 +208,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	
 	/**
      * Adds the specified object to the set.
+     * 
+     * O(n):  Would iterate through entirely single branched trees like a list.
      *
      * @param obj object to be added to the set
      */
@@ -244,6 +250,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 
 	/**
      * Removes all of the elements from the set.
+     * 
+     * O(1):  Complexity not dependent on tree size.
      */
 	@Override
 	public void clear() {
@@ -254,6 +262,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	/**
      * Returns {@code true} if the set contains the specified object and
      * {@code false} otherwise.
+     * 
+     * O(n):  Would iterate through entirely single branched trees like a list.
      *
      * @param obj the object to find in the set
      * @return {@code true} if the set contains the specified object and
@@ -293,6 +303,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 
 	/**
      * Returns {@code true} if the set is empty and {@code false} otherwise.
+     * 
+     * O(1):  Complexity not dependent on tree size.
      *
      * @return {@code true} if the set is empty and {@code false} otherwise
      */
@@ -308,6 +320,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 
 	/**
      * Remove the specified object from the set, if it is present.
+     * 
+     * O(n):  Would iterate through entirely single branched trees like
+     * 		a list to find the node to remove.  In the most complex case
+     * 		of removal it would also have to iterate through the provided
+     * 		sub-tree to remove the swapped value.
      *
      * @param obj the object to remove
      * @return {@code true} if the set contained the specified object and
@@ -403,6 +420,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	
 	/**
      * Returns the number of elements in the set.
+     * 
+     * O(1):  Not dependent on tree size.
      *
      * @return the number of elements in the set
      */
@@ -414,6 +433,10 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	/**
      * Returns an array containing all of the objects in the set in the proper
      * order (from least to greatest).
+     * 
+     * O(n):  Would iterate through entirely left single branched trees like
+     * 		a list.  The body (for loop) of the method would then also iterate
+     * 		through the entire array.
      *
      * @return an array containing the objects in the set
      */
@@ -427,7 +450,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 		Iterator iTree = new Iterator(root);
 
 	    for (int i = 0; i < size; i++) {
-	        data[i] = iTree.next();
+	        data[i] = iTree.next().datum;
 	    }
 	    
 	    /* Print for testing
