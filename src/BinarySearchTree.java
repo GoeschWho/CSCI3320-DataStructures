@@ -180,7 +180,6 @@ public class BinarySearchTree<T extends Comparable<T>> implements Set<T> {
 	    }
 
 	    repr.append("}");
-	    repr.append(size);
 
 	    return repr.toString();
 	}

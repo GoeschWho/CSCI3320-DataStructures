@@ -124,6 +124,7 @@ public class LinkedList<T> implements Sequence<T> {
 		else if (idx == 0) {
 			tmp.next = head;
 			head = tmp;
+			size++;
 		}
 		else {
 			while (!found) {
@@ -277,7 +278,7 @@ public class LinkedList<T> implements Sequence<T> {
 		}
 		else if (idx == 0) {
 			retNode = current;
-			current = current.next;
+			head = current.next;
 			size--;
 		}
 		else {
@@ -294,7 +295,7 @@ public class LinkedList<T> implements Sequence<T> {
 				}
 			}
 		}
-		return retNode.datum; // Due to index checking, this should never be reached.
+		return retNode.datum;
 	}
 
 	/**
@@ -307,41 +308,34 @@ public class LinkedList<T> implements Sequence<T> {
      */
 	@Override
 	public boolean remove(T obj) {
-		return remove(head, obj);
-	}
-	
-	/**
-	 * Implements the public remove function. 
-	 * 
-	 * @param head The head of the linked list to look in
-	 * @param datum The data to look for
-	 * @return {@code true} if the linked list contains the data
-     *         {@code false} otherwise
-	 */
-	private boolean remove(ListNode current, T datum) {
-		boolean found = false;
-		
-		if (current == null) {
-			return false;
-		}
-		else if (current.datum == datum) {
-			current = current.next;
-			size--;
+		int startSize = size;
+		head = remove(head, obj);
+		if (size != startSize) {
 			return true;
 		}
 		else {
-			while (!found && (current.next != null)) {
-				if (current.next.datum == datum) {
-					current.next = current.next.next;
-					size--;
-					return true;
-				}
-				else {
-					current = current.next;
-				}
-			}
 			return false;
 		}
+	}
+	
+	/**
+	 * Recursively implements the public remove function. 
+	 * 
+	 * @param head The head of the linked list to look in
+	 * @param datum The data to look for
+	 * @return Resulting list after removal.
+	 */
+	private ListNode remove(ListNode current, T datum) {
+		if (current != null) {
+			if (current.datum == datum) {
+				current = current.next;
+				size--;
+			}
+			else {
+				current.next = remove(current.next, datum);
+			}
+		}
+		return current;
 	}
 
 	/**
