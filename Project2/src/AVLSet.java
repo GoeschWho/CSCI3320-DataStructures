@@ -1,3 +1,5 @@
+import BinarySearchTree.TreeNode;
+
 /**
  * This class implements the provided Set interface.
  * 
@@ -158,6 +160,56 @@ public class AVLSet<T extends Comparable<T>> implements Set<T> {
 	
 	private void balance() {
 		
+	}
+	
+	/**
+	 * Prints the datum of the tree out in order in the console.
+	 * 
+	 * O(n):  {@code toString()} iterates through entire tree.
+	 */
+	public void printTree() {
+		System.out.println(toString());
+	}
+	
+	/**
+	 * Adapted from the provided toString() for a linked list.
+	 * Return a {@code String} representation of the BST.
+	 * 
+	 * O(n):  Iterates through entire tree.
+	 * 
+	 * @return a {@code String} representation of the BST.
+	 * @author Adapted from Canvas source
+	 */
+	public String toString() {
+		StringBuilder repr = new StringBuilder();
+	    repr.append("{");
+
+	    TreeNode tmp = root;
+	    if (root != null) {
+	    	repr.append(toString(tmp).substring(2));
+	    }
+
+	    repr.append("}");
+
+	    return repr.toString();
+	}
+	
+	/**
+	 * Return a string of the tree contents.
+	 * 
+	 * @param current
+	 * @return a {@code String} representation of the BST contents.
+	 */
+	private String toString(TreeNode current) {
+		StringBuilder repr = new StringBuilder();
+		
+	    if (current != null) {
+	    	repr.append(toString(current.left));
+	    	repr.append(", ").append(current.datum);
+	    	repr.append(toString(current.right));
+	    }
+	    
+	    return repr.toString();
 	}
 	
 	/**
