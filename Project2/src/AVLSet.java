@@ -1,5 +1,3 @@
-import BinarySearchTree.TreeNode;
-
 /**
  * This class implements the provided Set interface.
  * 
@@ -7,7 +5,7 @@ import BinarySearchTree.TreeNode;
  *
  * @param <T>
  */
-public class AVLSet<T extends Comparable<T>> implements Set<T> {
+public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteable {
 
 	/**
 	 * This class defines a node of a binary tree;
@@ -16,16 +14,18 @@ public class AVLSet<T extends Comparable<T>> implements Set<T> {
 	 */
 	class TreeNode {
 		T datum;
+		int height;
 		TreeNode left;
 		TreeNode right;
 		
 		/**
-		 * Constructs an empty TreeNode
+		 * Constructs an new TreeNode
 		 * 
 		 * @param datum
 		 */
 		TreeNode(T datum) {
 			this.datum = datum;
+			this.height = 0;
 			this.left = null;
 			this.right = null;
 		}
@@ -158,8 +158,27 @@ public class AVLSet<T extends Comparable<T>> implements Set<T> {
 		size = 0;
 	}
 	
-	private void balance() {
-		
+	/**
+	 * Updates the height of nodes affected by inserting an object.
+	 * First call will pass the head and inserted object as only
+	 * parents of the inserted node will be affected.
+	 * 
+	 * @param current Node to start height update at
+	 * @param obj Datum value of inserted node
+	 */
+	private void updateHeight(TreeNode current) {
+		if (isLeaf(current)) {
+			current.height = 0;
+		}
+		else if (current.left != null && current.right == null) {
+			current.height = 1 + current.left.height;
+		}
+		else if (current.left == null && current.right != null) {
+			current.height = 1 + current.right.height;
+		}
+		else {
+			current.height = 1 + Math.max(current.left.height, current.right.height);
+		}
 	}
 	
 	/**
@@ -244,10 +263,12 @@ public class AVLSet<T extends Comparable<T>> implements Set<T> {
 			
 			if (comparison > 0) {
 				current.right = add(current.right, obj);
+				updateHeight(current);
 				return current;
 			}
 			else if (comparison < 0) {
 				current.left = add(current.left, obj);
+				updateHeight(current);
 				return current;
 			}
 		}
@@ -364,9 +385,11 @@ public class AVLSet<T extends Comparable<T>> implements Set<T> {
 		
 		if (comparison < 0) {
 			current.left = remove(current.left, obj);
+			updateHeight(current);
 		}
 		else if (comparison > 0) {
 			current.right = remove(current.right, obj);
+			updateHeight(current);
 		}
 		else if (comparison == 0) {
 			if(isLeaf(current)) {
@@ -467,5 +490,64 @@ public class AVLSet<T extends Comparable<T>> implements Set<T> {
 	    
 	    return data;
 	}
+	
+	/**
+     * Returns the GraphViz dot file representation of the calling object.
+     *
+     * @return the GraphViz dot file representation of the calling object
+     * 
+     * @author Gregory Gelfond (ggelfond@unomaha.edu)
+     */
+    public String graphvizForm() {
+        return graphvizForm(root);
+    }
+
+    private String graphvizForm(TreeNode t) {
+        StringBuilder repr = new StringBuilder();
+
+        repr.append("digraph G {\n");
+        repr.append("graph [ dpi = 70 ]\n");
+        repr.append("nodesep=0.3;\n");
+        repr.append("ranksep=0.2;\n");
+        repr.append("margin=0.1;\n");
+        repr.append("node [shape=circle];\n");
+        repr.append("edge [arrowsize=0.8];\n");
+
+        StringBuilder content = graphvizForm(new StringBuilder(), t, 1);
+
+        repr.append(content);
+        repr.append("}");
+
+        return repr.toString();
+    }
+
+    private StringBuilder graphvizForm(StringBuilder repr, TreeNode t, int base) {
+        // if the given tree is empty, do nothing
+        if (t == null) {
+            return repr;
+        }
+
+        // Add to the representation the datum associated with the given node
+        //repr.append(String.format("node%d [label=\"%s\"];\n", base, t.datum));
+        repr.append(String.format("node%d [label=\"%s-%s\"];\n", base, t.datum, t.height));
+
+        // enumerate the left and right subtrees
+        int left = 2 * base;
+        int right = 2 * base + 1;
+
+        // add the content of the left subtree to our representation
+        if (t.left != null) {
+            repr.append(String.format("node%d -> node%d;\n", base, left));
+            graphvizForm(repr, t.left, left);
+        }
+
+        // add the content of the right subtree to our representation
+        if (t.right != null) {
+            repr.append(String.format("node%d -> node%d;\n", base, right));
+            graphvizForm(repr, t.right, right);
+        }
+
+        return repr;
+    }
 
 }

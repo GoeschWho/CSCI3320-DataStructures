@@ -1,5 +1,5 @@
 /**
- * This class tests each of the Set and Sequence interface methods.
+ * This class tests each of the Set interface methods.
  * While the tests cover the basic cases, the exception throwing cases
  * were manually tested individually outside this class along with
  * testing needed for debugging.  This class serves the purpose of
@@ -10,7 +10,7 @@
  * standardize the testing output.
  * 
  * The {@code test*} methods each test a specific function from the
- * Set and Sequence interfaces.
+ * Set interface.
  * 
  * @author Megan Bird
  */
@@ -26,6 +26,7 @@ public class Test {
 		testAVLSetremove();
 		testAVLSetsize();
 		testAVLSettoArray();
+		testAVLGraphVizWrite();
 		
 	}
 	
@@ -206,5 +207,23 @@ public class Test {
 		}
 		
 		result("AVLSet toArray()",result);	
+	}
+	
+	private static void testAVLGraphVizWrite() {
+		
+		AVLSet<Integer> testSet = new AVLSet<Integer>();
+		
+		testSet.add(5);
+		testSet.add(3);
+		testSet.add(8);
+		testSet.add(1);
+		testSet.add(0);
+		testSet.add(2);
+		testSet.add(4);
+		testSet.add(6);
+		testSet.add(7);
+		testSet.add(9);
+		
+		System.out.printf("\n\n%s",testSet.graphvizForm());
 	}
 }
