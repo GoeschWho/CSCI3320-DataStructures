@@ -158,15 +158,24 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		size = 0;
 	}
 	
+	private int height(TreeNode node) {
+		if (node == null) {
+			return -1;
+		}
+		else {
+			return node.height;
+		}
+	}
+	
 	/**
-	 * Updates the height of nodes affected by inserting an object.
-	 * First call will pass the head and inserted object as only
-	 * parents of the inserted node will be affected.
+	 * Updates the height of given node based on heights of its children.
+	 * Height of children must already be updated as this function does
+	 * not update the children recursively.  It is to be called
+	 * while a recursive function is returning up the tree.
 	 * 
-	 * @param current Node to start height update at
-	 * @param obj Datum value of inserted node
+	 * @param current Node to update height of
 	 */
-	private void updateHeight(TreeNode current) {
+	private TreeNode updateHeight(TreeNode current) {
 		if (isLeaf(current)) {
 			current.height = 0;
 		}
@@ -179,6 +188,57 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		else {
 			current.height = 1 + Math.max(current.left.height, current.right.height);
 		}
+		return current;
+	}
+	
+	private TreeNode balance(TreeNode current) {
+		if (height(current.left) - height(current.right) > 1) { // scenario 1 or 2
+			if (height(current.left.left) >= height(current.left.right)) { // scenario 1 - single right rotation
+				current = rightRotation(current);
+			}
+			else { // scenario 2 - double rotation - left then right
+				current.left = leftRotation(current.left);
+				current = rightRotation(current);
+			}
+		}
+		else if (height(current.right) - height(current.left) > 1){ // scenario 3 or 4
+			if (height(current.right.right) >= height(current.right.left)) { // scenario 4 - single left rotation
+				current = leftRotation(current);
+			}
+			else { // scenario 3 - double rotation - right then left
+				current.right = rightRotation(current.right);
+				current = leftRotation(current);
+			}
+		}
+		return current;
+	}
+	
+	private TreeNode rightRotation(TreeNode current) {
+		TreeNode rt = current.left;
+		if (current.left.right != null) {
+			current.left = current.left.right;
+		}
+		else {
+			current.left = null;
+		}
+		rt.right = current;
+		updateHeight(rt.right);
+		updateHeight(rt);
+		return rt;
+	}
+	
+	private TreeNode leftRotation(TreeNode current) {
+		TreeNode rt = current.right;
+		if (current.right.left != null) {
+			current.right = current.right.left;
+		}
+		else {
+			current.right = null;
+		}
+		rt.left = current;
+		updateHeight(rt.left);
+		updateHeight(rt);
+		return rt;
 	}
 	
 	/**
@@ -225,6 +285,7 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 	    if (current != null) {
 	    	repr.append(toString(current.left));
 	    	repr.append(", ").append(current.datum);
+	    	//repr.append("-").append(current.height); // testing
 	    	repr.append(toString(current.right));
 	    }
 	    
@@ -263,12 +324,16 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 			
 			if (comparison > 0) {
 				current.right = add(current.right, obj);
-				updateHeight(current);
+				current = updateHeight(current);
+				current = balance(current);
+				current = updateHeight(current);
 				return current;
 			}
 			else if (comparison < 0) {
 				current.left = add(current.left, obj);
-				updateHeight(current);
+				current = updateHeight(current);
+				current = balance(current);
+				current = updateHeight(current);
 				return current;
 			}
 		}
@@ -385,11 +450,15 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		
 		if (comparison < 0) {
 			current.left = remove(current.left, obj);
-			updateHeight(current);
+			current = updateHeight(current);
+			current = balance(current);
+			current = updateHeight(current);
 		}
 		else if (comparison > 0) {
 			current.right = remove(current.right, obj);
-			updateHeight(current);
+			current = updateHeight(current);
+			current = balance(current);
+			current = updateHeight(current);
 		}
 		else if (comparison == 0) {
 			if(isLeaf(current)) {
@@ -502,6 +571,9 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
         return graphvizForm(root);
     }
 
+	/**
+     * @author Gregory Gelfond (ggelfond@unomaha.edu)
+     */
     private String graphvizForm(TreeNode t) {
         StringBuilder repr = new StringBuilder();
 
@@ -520,6 +592,10 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 
         return repr.toString();
     }
+    
+	/**
+     * @author Gregory Gelfond (ggelfond@unomaha.edu)
+     */
 
     private StringBuilder graphvizForm(StringBuilder repr, TreeNode t, int base) {
         // if the given tree is empty, do nothing
@@ -529,7 +605,7 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 
         // Add to the representation the datum associated with the given node
         //repr.append(String.format("node%d [label=\"%s\"];\n", base, t.datum));
-        repr.append(String.format("node%d [label=\"%s-%s\"];\n", base, t.datum, t.height));
+        repr.append(String.format("node%d [label=\"%s-%s\"];\n", base, t.datum, t.height));	// height testing
 
         // enumerate the left and right subtrees
         int left = 2 * base;

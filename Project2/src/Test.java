@@ -19,6 +19,7 @@ public class Test {
 	public static void main(String[] args) {
 		
 		// AVLSet testing
+		
 		testAVLSetadd();
 		testAVLSetclear();
 		testAVLSetcontains();
@@ -26,6 +27,7 @@ public class Test {
 		testAVLSetremove();
 		testAVLSetsize();
 		testAVLSettoArray();
+		
 		testAVLGraphVizWrite();
 		
 	}
@@ -213,6 +215,7 @@ public class Test {
 		
 		AVLSet<Integer> testSet = new AVLSet<Integer>();
 		
+		/*
 		testSet.add(5);
 		testSet.add(3);
 		testSet.add(8);
@@ -223,7 +226,25 @@ public class Test {
 		testSet.add(6);
 		testSet.add(7);
 		testSet.add(9);
+		*/
 		
+		testSet.add(10);
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(9);
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(8);		
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(13);
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(12);
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(11);		
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(15);		
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(14);		
+		System.out.printf("\n\n%s",testSet.graphvizForm());
+		testSet.add(16);		
 		System.out.printf("\n\n%s",testSet.graphvizForm());
 	}
 }
