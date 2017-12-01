@@ -1,5 +1,5 @@
 /**
- * This class implements the provided Set interface.
+ * This class implements the provided Set interface with AVL trees.
  * 
  * @author Megan Bird
  *
@@ -158,6 +158,13 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		size = 0;
 	}
 	
+	/**
+	 * Returns the affective height of a node which is simple the node
+	 * height value or -1 when a null node.
+	 * 
+	 * @param node to check height of
+	 * @return height of node
+	 */
 	private int height(TreeNode node) {
 		if (node == null) {
 			return -1;
@@ -191,6 +198,14 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		return current;
 	}
 	
+	/**
+	 * Balances the tree from the perspective of the given node.
+	 * This is done by determining the scenario and performing
+	 * either left or right rotations.
+	 * 
+	 * @param current node to balance at
+	 * @return balanced tree
+	 */
 	private TreeNode balance(TreeNode current) {
 		if (height(current.left) - height(current.right) > 1) { // scenario 1 or 2
 			if (height(current.left.left) >= height(current.left.right)) { // scenario 1 - single right rotation
@@ -213,6 +228,12 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		return current;
 	}
 	
+	/**
+	 * Performs a right rotation at the current node for balancing
+	 * 
+	 * @param current node to perform rotation at
+	 * @return resulting node after rotation
+	 */
 	private TreeNode rightRotation(TreeNode current) {
 		TreeNode rt = current.left;
 		if (current.left.right != null) {
@@ -227,6 +248,12 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 		return rt;
 	}
 	
+	/**
+	 * Performs a left rotation at the current node for balancing
+	 * 
+	 * @param current node to perform rotation at
+	 * @return resulting node after rotation
+	 */
 	private TreeNode leftRotation(TreeNode current) {
 		TreeNode rt = current.right;
 		if (current.right.left != null) {
@@ -271,7 +298,7 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 	    repr.append("}");
 
 	    return repr.toString();
-	}
+	}	
 	
 	/**
 	 * Return a string of the tree contents.
@@ -571,8 +598,13 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
         return graphvizForm(root);
     }
 
-	/**
+    /**
+     * Generates a string containing the GraphVis representation of the tree
+     * 
      * @author Gregory Gelfond (ggelfond@unomaha.edu)
+     * 
+     * @param t tree to output
+     * @return string of GraphVis format
      */
     private String graphvizForm(TreeNode t) {
         StringBuilder repr = new StringBuilder();
@@ -596,7 +628,6 @@ public class AVLSet<T extends Comparable<T>> implements Set<T>, GraphVizWriteabl
 	/**
      * @author Gregory Gelfond (ggelfond@unomaha.edu)
      */
-
     private StringBuilder graphvizForm(StringBuilder repr, TreeNode t, int base) {
         // if the given tree is empty, do nothing
         if (t == null) {

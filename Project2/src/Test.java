@@ -4,7 +4,8 @@
  * were manually tested individually outside this class along with
  * testing needed for debugging.  This class serves the purpose of
  * making sure nothing got accidentally "broken" after its initial
- * testing and during development.
+ * testing and during development.  The final method outputs a GraphViz
+ * file at each step during an AVL tree creation to verify balancing.
  * 
  * The {@code result} and {@code compare} methods were created to
  * standardize the testing output.
@@ -214,19 +215,6 @@ public class Test {
 	private static void testAVLGraphVizWrite() {
 		
 		AVLSet<Integer> testSet = new AVLSet<Integer>();
-		
-		/*
-		testSet.add(5);
-		testSet.add(3);
-		testSet.add(8);
-		testSet.add(1);
-		testSet.add(0);
-		testSet.add(2);
-		testSet.add(4);
-		testSet.add(6);
-		testSet.add(7);
-		testSet.add(9);
-		*/
 		
 		testSet.add(10);
 		System.out.printf("\n\n%s",testSet.graphvizForm());
